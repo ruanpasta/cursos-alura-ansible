@@ -1,0 +1,140 @@
+# wordpress_db
+
+---
+- hosts: database
+  roles:
+    - mysql
+  # handlers:
+  #   - name: restart mysql
+  #     service:
+  #       name: mysql
+  #       state: restarted
+  #     become: yes
+
+  # tasks:
+  #   - name: 'Instala pacotes de dependencia do MySQL'
+  #     apt:
+  #       name: '{{ item }}'
+  #       state: 'latest'
+  #     become: yes
+  #     with_items:
+  #       - mysql-server-5.6
+  #       - python-mysqldb
+
+  #   - name: 'Criar banco do MySQL'
+  #     mysql_db:
+  #       name: '{{ wp_db_name }}'
+  #       login_user: root
+  #       state: present
+
+  #   - name: Criar o usuário do MySQL
+  #     community.mysql.mysql_user:
+  #       login_user: root
+  #       name: '{{ wp_username }}'
+  #       password: '{{ wp_user_password }}'
+  #       priv: '{{ wp_db_name }}.*:ALL'
+  #       state: present
+  #       host: '{{ item }}'
+  #     with_items:
+  #       - 'localhost'
+  #       - '127.0.0.1'
+  #       - '{{ wp_host_ip }}'
+
+  #   - name: 'Configura o MySQL para aceitar conexões remotas'
+  #     ansible.builtin.copy:
+  #       src: files/my.cnf
+  #       dest: /etc/mysql/my.cnf
+  #     become: yes
+  #     notify:
+  #       - restart mysql
+
+- hosts: wordpress
+  # handlers:
+  #   - name: restart apache
+  #     service:
+  #       name: apache2
+  #       state: restarted
+  #     become: yes
+
+  roles:
+    - webserver
+    - wordpress
+
+  tasks:
+    # - name: 'Instala pacotes de dependencia do sistema operacional'
+    #   apt:
+    #     name: '{{ item }}'
+    #     state: 'latest'
+    #   become: yes
+    #   with_items:
+    #     - php5
+    #     - apache2
+    #     - libapache2-mod-php5
+    #     - php5-gd
+    #     - libssh2-php
+    #     - php5-mcrypt
+    #     - php5-mysql
+    
+    # - name: 'Baixa o arquivo de instalacao do Wordpress'
+    #   get_url:
+    #     url: 'https://wordpress.org/wordpress-5.0.tar.gz'
+    #     dest: /tmp/wordpress.tar.gz
+
+    # - name: 'Descompacta o Wordpress'
+    #   unarchive:
+    #     src: /tmp/wordpress.tar.gz
+    #     dest: /var/www/
+    #     remote_src: yes
+    #   become: yes
+
+    # - name: Copia o arquivo de exemplo de configuração do wordpress
+    #   ansible.builtin.copy:
+    #     src: '{{ wp_installation_dir }}/wp-config-sample.php'
+    #     dest: '{{ wp_installation_dir }}/wp-config.php'
+    #     remote_src: yes
+    #   become: yes
+
+    # - name: 'Configura o wp-config com as entradas do banco de dados'
+    #   ansible.builtin.replace:
+    #     path: '{{ wp_installation_dir }}/wp-config.php'
+    #     regexp: '{{ item.regex }}'
+    #     replace: '{{ item.value }}'
+    #   with_items:
+    #     - { regex: 'database_name_here', value: '{{ wp_db_name }}' }
+    #     - { regex: 'username_here', value: '{{ wp_username }}' }
+    #     - { regex: 'password_here', value: '{{ wp_user_password }}' }
+    #     - { regex: 'localhost', value: '{{ wp_db_ip }}' }
+    #   become: yes
+
+    # - name: 'Configura Apache para servir o Wordpress'
+    #   template:
+    #     src: 'templates/000-default.conf.j2'
+    #     dest: /etc/apache2/sites-available/000-default.conf
+    #   become: yes
+    #   notify:
+    #     - restart apache
+
+    # - name: Configura o apache para servir o Wordpress
+    #   ansible.builtin.copy:
+    #     src: files/000-default.conf
+    #     dest: /etc/apache2/sites-available/000-default.conf 
+    #   become: yes
+    #   notify:
+    #     - restart apache
+
+    # - shell: 'echo Hello > /vagrant/world.txt'
+    # - name: 'Instala o PHP5'
+    #   apt:
+    #     name: php5  
+    #     state: latest
+    #   become: yes
+    # - name: 'Instala Apache2'
+    #   apt:
+    #     name: apache2
+    #     state: latest
+    #   become: yes
+    # - name: 'Instala o modphp'
+    #   apt:
+    #     name: libapache2-mod-php5
+    #     state: latest
+    #   become: yes
